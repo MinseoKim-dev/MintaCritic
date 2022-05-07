@@ -23,7 +23,7 @@ public class AlbumService {
         return albumDao.insertAlbum(album);
     }
 
-    public void updateAlbum(String title, float rate) {
+    public void updateAlbum(String title, int rate) {
         albumDao.updateAlbum(title, rate);
     }
 

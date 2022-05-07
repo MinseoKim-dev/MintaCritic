@@ -28,7 +28,7 @@ public class AlbumController {
     }
 
     @PutMapping("/{title}")
-    public void modifyReview(@PathVariable String title, @RequestBody float rate) {
+    public void modifyReview(@PathVariable String title, @RequestBody int rate) {
         albumService.updateAlbum(title, rate);
     }
 

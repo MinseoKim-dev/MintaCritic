@@ -9,19 +9,13 @@ public class AlbumDao {
 
     public static ArrayList<Album> albums;
 
-    static {
-        albums = new ArrayList<>();
-        albums.add(new Album("Taylor Swift", "1989", 100, new ArrayList<>(), "", ""));
-        albums.add(new Album("Taylor Swift", "Red", 100, new ArrayList<>(), "", ""));
-    }
-
     public ArrayList<Album> getAllAlbums() {
         return albums;
     }
 
     public Album getAlbumByTitle(String title) {
         return albums.stream().filter(album->album.getTitle().equals(title))
-                .findAny().orElse(new Album("None", "None", 0, new ArrayList<>(), "", ""));
+                .findAny().orElse(new Album("None", "None", 0, "", "", ""));
     }
 
     public Album insertAlbum(Album album) {
@@ -29,9 +23,9 @@ public class AlbumDao {
         return album;
     }
 
-    public void updateAlbum(String title, float rate) {
+    public void updateAlbum(String title, int rate) {
         albums.stream().filter(album->album.getTitle().equals(title))
-                .findAny().orElse(new Album("None", "None", 0, new ArrayList<>(), "", ""))
+                .findAny().orElse(new Album("None", "None", 0, "", "", ""))
                 .setRate(rate);
     }
 

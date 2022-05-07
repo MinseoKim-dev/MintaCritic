@@ -1,18 +1,31 @@
 package com.mskim.mintacritic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name="album")
 public class Album {
 
     private String artist;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String title;
-    private float rate;
-    private ArrayList<String> trackList;
+    private int rate;
+    private String trackList;
     private String coverArtUrl;
     private String comment;
 
-    public Album(String artist, String title, float rate, ArrayList<String> trackList, String coverArtUrl, String comment) {
+    @Builder
+    public Album(String artist, String title, int rate, String trackList, String coverArtUrl, String comment) {
         this.artist = artist;
         this.title = title;
         this.rate = rate;
@@ -21,31 +34,7 @@ public class Album {
         this.comment = comment;
     }
 
-    public String getArtist() {
-        return this.artist;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public float getRate() {
-        return this.rate;
-    }
-
-    public ArrayList<String> getTrackList() {
-        return this.trackList;
-    }
-
-    public String getCoverArtUrl () {
-        return this.coverArtUrl;
-    }
-
-    public String getComment () {
-        return this.comment;
-    }
-
-    public void setRate(float rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 

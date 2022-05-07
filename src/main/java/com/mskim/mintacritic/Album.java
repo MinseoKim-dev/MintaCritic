@@ -41,11 +41,17 @@ public class Album {
         return this.coverArtUrl;
     }
 
+    public String getComment () {
+        return this.comment;
+    }
+
     public void setRate(float rate) {
         this.rate = rate;
     }
 
-
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
 
 }

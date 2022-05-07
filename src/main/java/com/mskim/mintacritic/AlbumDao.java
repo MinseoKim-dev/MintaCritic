@@ -33,7 +33,6 @@ public class AlbumDao {
         albums.stream().filter(album->album.getTitle().equals(title))
                 .findAny().orElse(new Album("None", "None", 0, new ArrayList<>(), "", ""))
                 .setRate(rate);
-
     }
 
     public void deleteAlbum(String title) {

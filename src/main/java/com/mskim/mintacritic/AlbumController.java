@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/albums")
+@RequestMapping("/api")
 public class AlbumController {
 
     @Autowired
@@ -21,6 +21,11 @@ public class AlbumController {
     @PostMapping("")
     public Album writeReview(@RequestBody Album album) {
         return albumService.save(album);
+    }
+
+    @GetMapping("/{artist}")
+    public ArrayList<Album> getAllAlbumsByArtist(@PathVariable String artist) {
+        return albumService.findAlbumByArtist(artist);
     }
 
     @GetMapping("/{artist}/{title}")

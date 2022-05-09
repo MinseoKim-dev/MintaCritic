@@ -9,6 +9,8 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     public Optional<Album> findAlbumByArtistAndTitle(String artist, String title);
 
+    public ArrayList<Album> findAlbumsByArtist(String artist);
+
     public void deleteAlbumByArtistAndTitle(String artist, String title);
 
 }

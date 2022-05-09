@@ -26,6 +26,10 @@ public class AlbumService {
         return album;
     }
 
+    public ArrayList<Album> findAlbumByArtist(String artist) {
+        return albumRepository.findAlbumsByArtist(artist);
+    }
+
     public void updateAlbum(String artist, String title, int rate, String comment) {
         Optional<Album> target = albumRepository.findAlbumByArtistAndTitle(artist, title);
         if (target.isPresent()) {

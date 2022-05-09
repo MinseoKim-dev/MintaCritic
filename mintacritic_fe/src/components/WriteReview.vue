@@ -1,11 +1,14 @@
 <template>
   <form v-on:submit="saveAlbum">
-    <input v-model="artist" type="text" placeholder="Artist"/>
-    <input v-model="title" type="text" placeholder="Title"/>
+    <h1>리뷰를 작성하세요!</h1>
+    <label for="artist">Artist: </label>
+    <input v-model="artist" id="artist" type="text"/><br>
+    <label for="title">Title: </label>
+    <input v-model="title" id="title" type="text" /><br>
     <input v-model="rate" type="number" placeholder="Rate"/>
     <input v-model="trackList" type="text" placeholder="TrackList"/>
-    <input v-model="coverArtUrl" type="text" placeholder="Cover Art Url">
-    <textarea v-model="comment" aria-placeholder="Comment"></textarea>
+    <input v-model="coverArtUrl" id="coverart" type="text" placeholder="Cover Art Url">
+    <textarea v-model="comment" id="comment" aria-placeholder="Comment"></textarea>
     <button type="submit">Save Album</button>
   </form>
 </template>

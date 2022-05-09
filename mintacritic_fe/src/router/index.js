@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import MainPage from '@/components/MainPage';
 import WriteReview from "@/components/WriteReview";
+import ViewReview from "@/components/ViewReview";
 
 Vue.use(VueRouter);
 
@@ -16,5 +17,10 @@ export default new VueRouter({
     }, {
         path: '/write',
         component: WriteReview
+    }, {
+        path: '/review',
+        name: 'review',
+        component: ViewReview,
+        props: true
     }]
 });

@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img id="cover" :src="url" alt="" height="100px" width="100px">
+    <img v-for="(url, index) in urls" :key="url" id="cover" :src="url" alt="" height="100px" width="100px" v-on:click="goToReview(artists[index], titles[index])">
   </div>
 </template>
 
@@ -11,7 +11,9 @@ export default {
   name: 'MainPage',
   data() {
     return {
-      url: ''
+      urls: [],
+      artists: [],
+      titles: []
     }
   },
   props: {
@@ -27,8 +29,15 @@ export default {
        axios.get("/api")
       .then((response) => {
         //console.log(response.data[1])
-        this.url = response.data[1].coverArtUrl
+        response.data.forEach(e => {
+          this.urls.push(e.coverArtUrl)
+          this.artists.push(e.artist)
+          this.titles.push(e.title)
+        })
       })
+    },
+    goToReview: function(artist, title) {
+      this.$router.push({name: 'review', params: {artist: artist, title: title}})
     }
   }
 }
@@ -36,18 +45,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

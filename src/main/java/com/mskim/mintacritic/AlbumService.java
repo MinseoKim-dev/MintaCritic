@@ -4,31 +4,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class AlbumService {
 
     @Autowired
-    AlbumDao albumDao;
+    AlbumRepository albumRepository;
 
-    public ArrayList<Album> getAllAlbums() {
-        return albumDao.getAllAlbums();
+    public ArrayList<Album> findAll() {
+        ArrayList<Album> albums = new ArrayList<>(albumRepository.findAll());
+        return albums;
     }
 
-    public Album getAlbumByTitle(String title) {
-        return albumDao.getAlbumByTitle(title);
+    public Optional<Album> findAlbumByArtistAndTitle(String artist, String title) {
+        return albumRepository.findAlbumByArtistAndTitle(artist, title);
     }
 
-    public Album insertAlbum(Album album) {
-        return albumDao.insertAlbum(album);
+    public Album save(Album album) {
+        albumRepository.save(album);
+        return album;
     }
 
-    public void updateAlbum(String title, int rate) {
-        albumDao.updateAlbum(title, rate);
+    public void updateAlbum(String artist, String title, int rate, String comment) {
+        Optional<Album> target = albumRepository.findAlbumByArtistAndTitle(artist, title);
+        if (target.isPresent()) {
+            target.get().setRate(rate);
+            target.get().setComment(comment);
+        }
     }
 
-    public void deleteAlbum(String title) {
-        albumDao.deleteAlbum(title);
+    public void deleteAlbum(String artist, String title) {
+        albumRepository.deleteAlbumByArtistAndTitle(artist, title);
     }
 
 }

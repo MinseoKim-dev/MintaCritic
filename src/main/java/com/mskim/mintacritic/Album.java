@@ -20,8 +20,13 @@ public class Album {
 
     private String title;
     private int rate;
+
+    @Column(name="tracklist")
     private String trackList;
+
+    @Column(name="coverarturl")
     private String coverArtUrl;
+
     private String comment;
 
     @Builder

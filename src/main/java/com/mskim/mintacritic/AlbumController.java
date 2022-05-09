@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/albums")
@@ -14,26 +15,27 @@ public class AlbumController {
 
     @GetMapping("")
     public ArrayList<Album> getAllAlbums() {
-        return albumService.getAllAlbums();
+        return albumService.findAll();
     }
 
     @PostMapping("")
     public Album writeReview(@RequestBody Album album) {
-        return albumService.insertAlbum(album);
+        return albumService.save(album);
     }
 
-    @GetMapping("/{title}")
-    public Album viewReview(@PathVariable String title) {
-        return albumService.getAlbumByTitle(title);
+    @GetMapping("/{artist}/{title}")
+    public Album viewReview(@PathVariable String artist, @PathVariable String title) {
+        Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
+        return target.orElseGet(() -> new Album("", "", 0, "", "", ""));
     }
 
-    @PutMapping("/{title}")
-    public void modifyReview(@PathVariable String title, @RequestBody int rate) {
-        albumService.updateAlbum(title, rate);
+    @PutMapping("/{artist}/{title}")
+    public void modifyReview(@PathVariable String artist, @PathVariable String title, @RequestBody int rate, @RequestBody String comment) {
+        albumService.updateAlbum(artist, title, rate, comment);
     }
 
-    @DeleteMapping("/{title}")
-    public void deleteReview(@PathVariable String title) {
-        albumService.deleteAlbum(title);
+    @DeleteMapping("/{artist}/{title}")
+    public void deleteReview(@PathVariable String artist, @PathVariable String title) {
+        albumService.deleteAlbum(artist, title);
     }
 }

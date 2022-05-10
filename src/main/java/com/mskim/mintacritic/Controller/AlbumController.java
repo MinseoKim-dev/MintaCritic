@@ -1,5 +1,7 @@
-package com.mskim.mintacritic;
+package com.mskim.mintacritic.Controller;
 
+import com.mskim.mintacritic.Service.AlbumService;
+import com.mskim.mintacritic.Entity.Album;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/albums")
 public class AlbumController {
 
     @Autowired
@@ -19,7 +21,7 @@ public class AlbumController {
     }
 
     @PostMapping("")
-    public Album writeReview(@RequestBody Album album) {
+    public Album registerAlbum(@RequestBody Album album) {
         return albumService.save(album);
     }
 
@@ -29,18 +31,19 @@ public class AlbumController {
     }
 
     @GetMapping("/{artist}/{title}")
-    public Album viewReview(@PathVariable String artist, @PathVariable String title) {
+    public Album viewAlbum(@PathVariable String artist, @PathVariable String title) {
         Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
-        return target.orElseGet(() -> new Album("", "", 0, "", "", ""));
+        return target.orElseGet(() -> new Album("", "", ""));
     }
 
     @PutMapping("/{artist}/{title}")
-    public void modifyReview(@PathVariable String artist, @PathVariable String title, @RequestBody int rate, @RequestBody String comment) {
-        albumService.updateAlbum(artist, title, rate, comment);
+    public String modifyAlbum(@PathVariable String artist, @PathVariable String title, @RequestBody String coverArtUrl) {
+        albumService.updateAlbum(artist, title, coverArtUrl);
+        return "Success!";
     }
 
     @DeleteMapping("/{artist}/{title}")
-    public void deleteReview(@PathVariable String artist, @PathVariable String title) {
+    public void deleteAlbum(@PathVariable String artist, @PathVariable String title) {
         albumService.deleteAlbum(artist, title);
     }
 }

@@ -1,5 +1,7 @@
-package com.mskim.mintacritic;
+package com.mskim.mintacritic.Service;
 
+import com.mskim.mintacritic.Entity.Album;
+import com.mskim.mintacritic.Repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +32,9 @@ public class AlbumService {
         return albumRepository.findAlbumsByArtist(artist);
     }
 
-    public void updateAlbum(String artist, String title, int rate, String comment) {
+    public void updateAlbum(String artist, String title, String coverArtUrl) {
         Optional<Album> target = albumRepository.findAlbumByArtistAndTitle(artist, title);
-        if (target.isPresent()) {
-            target.get().setRate(rate);
-            target.get().setComment(comment);
-        }
+        target.ifPresent(album -> album.setCoverArtUrl(coverArtUrl));
     }
 
     public void deleteAlbum(String artist, String title) {

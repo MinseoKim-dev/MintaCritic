@@ -1,0 +1,36 @@
+package com.mskim.mintacritic.Entity;
+
+import lombok.*;
+
+import javax.persistence.*;
+
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name="review")
+public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Builder
+    public Review(int rate, String comment, Album album, User user) {
+        this.rate = rate;
+        this.comment = comment;
+        this.album = album;
+        this.user = user;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="album_id")
+    private Album album;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    private int rate;
+    private String comment;
+
+}

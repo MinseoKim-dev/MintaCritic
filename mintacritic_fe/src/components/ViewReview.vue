@@ -1,12 +1,12 @@
 <template>
   <div id="content">
     <img id="cover" :src="coverArtUrl" alt="" height="300px" width="300px"><br>
-    Artist: {{artist}}<br>
-    Title: {{title}}<br>
-    Track List: {{trackList}}<br>
-    Rate: {{rate}}<br>
-    Your Comment: {{comment}}<br>
+    <p>Artist: {{artist}}<br></p>
+    <p>Title: {{title}}<br></p>
+    <p>Rate: {{rate}}<br></p>
+    <p>Your Comment: {{comment}}<br></p>
     <button v-on:click="deleteReview">이 리뷰 삭제하기</button><br>
+    <button v-on:click="modifyReview(artist, title)">이 리뷰 수정하기</button>
   </div>
 </template>
 
@@ -18,35 +18,40 @@ export default {
   data() {
     return {
       rate: 0,
-      trackList: "",
-      coverArtUrl: "",
       comment: ""
     }
   },
   props: {
     artist: String,
-    title: String
+    title: String,
+    coverArtUrl: String
   },
   mounted: function() {
-    this.getAlbumInfo()
+    if (this.$store.state.isLoggedIn) {
+      this.getAlbumInfo();
+    } else {
+      alert('로그인 정보가 없습니다!')
+    }
+
   },
   methods: {
     getAlbumInfo: function() {
-      axios.get("/api/"+this.artist+"/"+this.title)
+      axios.get(`/api/reviews/${this.artist}/${this.title}/${this.$store.state.userid}`)
       .then((response) => {
         console.log(response)
         this.rate = response.data.rate
-        this.trackList = response.data.trackList
-        this.coverArtUrl = response.data.coverArtUrl
         this.comment = response.data.comment
       })
     },
     deleteReview: function() {
-      axios.delete("/api/"+this.artist+"/"+this.title)
+      axios.delete(`/api/reviews/${this.artist}/${this.title}/${this.$store.state.userid}`)
       .then((response) => {
         console.log(response)
         this.$router.push('/home')
       })
+    },
+    modifyReview: function(artist, title) {
+      this.$router.push({name: 'modify', params: {artist: artist, title: title}})
     }
   }
 

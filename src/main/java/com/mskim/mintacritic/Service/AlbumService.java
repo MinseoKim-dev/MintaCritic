@@ -23,7 +23,8 @@ public class AlbumService {
         return albumRepository.findAlbumByArtistAndTitle(artist, title);
     }
 
-    public Album save(Album album) {
+    public Album save(String artist, String title, String coverArtUrl) {
+        Album album = new Album(artist, title, coverArtUrl);
         albumRepository.save(album);
         return album;
     }

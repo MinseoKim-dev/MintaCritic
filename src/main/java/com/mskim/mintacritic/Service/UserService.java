@@ -20,11 +20,20 @@ public class UserService {
         return users;
     }
 
+    public int checkIDDuplicate(String userid) {
+        return userRepository.countAllByUserID(userid);
+    }
+
+    public int checkNicknameDuplicate(String nickname) {
+        return userRepository.countAllByNickname(nickname);
+    }
+
     public Optional<User> findUserByID(String userID) {
         return userRepository.findUserByUserID(userID);
     }
 
-    public User register(User user) {
+    public User register(String userid, String password, String nickname) {
+        User user = new User(userid, password, nickname);
         userRepository.save(user);
         return user;
     }

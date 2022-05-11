@@ -2,10 +2,14 @@
   <div id="app">
     <div class="top">
       MintaCritic
+      <router-link v-if="this.$store.state.isLoggedIn" to="/logout"><a>로그아웃</a></router-link>
+      <router-link v-else to="/login"><a>로그인</a></router-link>
+      <router-link to="/register"><a>회원 가입</a></router-link>
     </div>
     <div class="left">
       <router-link to="/home"><button class="menu">홈</button></router-link><br>
-      <router-link to="/write"><button class="menu">리뷰 작성하기</button></router-link>
+      <router-link to="/search_album"><button class="menu">리뷰 작성하기</button></router-link>
+      <router-link to="/register_album"><button class="menu">앨범 등록하기</button></router-link>
     </div>
     <div class="right">
       <router-view></router-view>
@@ -14,7 +18,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
   components: {
@@ -43,6 +46,11 @@ template {
 }
 div {
   height: 100%
+}
+a {
+  float: right;
+  font-size: small;
+  margin-right: 10px;
 }
 div.top {
   width: 100%;
@@ -75,8 +83,8 @@ button.menu {
   background-color: transparent;
   width: 100%;
   height: 40px;
-  font-size: large;
-  margin-bottom: 10px;
+  font-size: x-large;
+  margin-top: 20px;
   color: white;
   border: none;
   text-align: center;

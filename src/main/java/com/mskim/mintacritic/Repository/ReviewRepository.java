@@ -8,17 +8,20 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    ArrayList<Review> findAllByUser(User user);
+    ArrayList<Review> findReviewsByUser(User user);
 
     Optional<Review> findReviewByUserAndAlbum(User user, Album album);
 
+    int countReviewByUserAndAlbum(User user, Album album);
+
     @Transactional
-    void deleteReviewByUserAndAlbume(User user, Album album);
+    void deleteReviewByUserAndAlbum(User user, Album album);
 
     @Transactional
     void deleteReviewsByUser(User user);

@@ -1,9 +1,13 @@
 package com.mskim.mintacritic.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,7 +33,8 @@ public class Album {
         this.coverArtUrl = coverArtUrl;
     }
 
-    @OneToMany(mappedBy = "album", cascade = CascadeType.REMOVE)
-    private ArrayList<Review> reviews;
+    @JsonBackReference
+    @OneToMany(mappedBy = "album")
+    private List<Review> reviews;
 
 }

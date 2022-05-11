@@ -1,14 +1,14 @@
 package com.mskim.mintacritic.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.type.StringNVarcharType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,6 +16,7 @@ import java.util.Collection;
 public class User {
 
     @Id
+    @Column(name="userid")
     private String userID;
 
     private String password;
@@ -29,6 +30,7 @@ public class User {
         this.nickname = nickname;
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user")
-    private ArrayList<Review> reviews;
+    private List<Review> reviews;
 }

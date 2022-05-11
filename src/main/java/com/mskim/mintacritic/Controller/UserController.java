@@ -15,14 +15,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/check/id/{userid}")
+    public int checkIDDuplicate(@PathVariable String userid) {
+        return userService.checkIDDuplicate(userid);
+    }
+
+    @GetMapping("/check/nickname/{nickname}")
+    public int checkNicknameDuplicate(@PathVariable String nickname) {
+        return userService.checkNicknameDuplicate(nickname);
+    }
+
     @GetMapping("")
     public ArrayList<User> getAllUsers() {
         return userService.findAllUsers();
     }
 
+    @GetMapping("/{userid}")
+    public String getPasswordByUserID(@PathVariable String userid) {
+        return userService.findUserByID(userid).orElse(new User("", "", "")).getPassword();
+    }
+
     @PostMapping("")
-    public User registerNewUser(User user) {
-        return userService.register(user);
+    public User registerNewUser(@RequestParam String userid, @RequestParam String password, @RequestParam String nickname) {
+        return userService.register(userid, password, nickname);
     }
 
     @DeleteMapping("/{userid}")

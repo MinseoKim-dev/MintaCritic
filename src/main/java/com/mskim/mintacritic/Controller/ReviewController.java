@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,56 +19,36 @@ public class ReviewController {
 
     @Autowired
     ReviewService reviewService;
-    UserService userService;
-    AlbumService albumService;
 
     @GetMapping("/{userid}")
     public ArrayList<Review> viewAllReviewByUser(@PathVariable String userid) {
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-        return reviewService.findReviewByUser(searchedUser);
+        return reviewService.findReviewByUser(userid);
     }
 
     @DeleteMapping("/{userid}")
     public void deleteAllReviewByUser(@PathVariable String userid) {
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-        reviewService.deleteReviewByUser(searchedUser);
+        reviewService.deleteReviewByUser(userid);
     }
 
     @GetMapping("/{artist}/{title}/{userid}")
     public Review viewReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid) {
-        Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
-        Album album = target.orElseGet(() -> new Album("", "", ""));
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-
-        return reviewService.findReviewByUserAndAlbum(searchedUser, album).orElseGet(() -> new Review(0, "", album, searchedUser));
+        return reviewService.findReviewByUserAndAlbum(artist, title, userid);
     }
 
     @PostMapping("/{artist}/{title}/{userid}")
-    public Review writeReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid, @RequestBody Review review) {
-        Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
-        Album album = target.orElseGet(() -> new Album("", "", ""));
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-
-        return reviewService.save(new Review(review.getRate(), review.getComment(), album, searchedUser));
+    public Review writeReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid, @RequestParam int rate, @RequestParam String comment) {
+        return reviewService.save(artist, title, userid, rate, comment);
     }
 
     @PutMapping("/{artist}/{title}/{userid}")
-    public String modifyReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid, @RequestBody Review review) {
-        Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
-        Album album = target.orElseGet(() -> new Album("", "", ""));
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-
-        reviewService.modifyReview(searchedUser, album, review);
+    public String modifyReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid, @RequestParam int rate, @RequestParam String comment) {
+        reviewService.modifyReview(artist, title, userid, rate, comment);
         return "Success!";
     }
 
     @DeleteMapping("/{artist}/{title}/{userid}")
     public void deleteReview(@PathVariable String artist, @PathVariable String title, @PathVariable String userid) {
-        Optional<Album> target = albumService.findAlbumByArtistAndTitle(artist, title);
-        Album album = target.orElseGet(() -> new Album("", "", ""));
-        User searchedUser = userService.findUserByID(userid).orElseGet(() -> new User("", "", ""));
-
-        reviewService.deleteReviewByUserAndAlbum(searchedUser, album);
+        reviewService.deleteReviewByUserAndAlbum(artist, title, userid);
     }
 
 

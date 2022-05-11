@@ -1,5 +1,8 @@
 package com.mskim.mintacritic.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,10 +25,12 @@ public class Review {
         this.user = user;
     }
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name="album_id")
     private Album album;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

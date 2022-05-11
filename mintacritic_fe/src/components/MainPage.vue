@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <img v-for="(url, index) in urls" :key="url" id="cover" :src="url" alt="" height="100px" width="100px" v-on:click="goToReview(artists[index], titles[index])">
+    <img v-for="(url, index) in urls" :key="url" id="cover" :src="url" alt="" height="150px" width="150px" v-on:click="goToReview(artists[index], titles[index], url)">
   </div>
 </template>
 
@@ -21,23 +21,29 @@ export default {
   },
 
   mounted: function() {
+    if (this.$store.state.isLoggedIn) {
       this.fetchData()
+    } else {
+      console.log(this.$store.state)
+      this.$router.push('/login')
+    }
   },
 
   methods: {
     fetchData: function() {
-       axios.get("/api")
+       axios.get("/api/reviews/"+this.$store.state.userid)
       .then((response) => {
-        //console.log(response.data[1])
+        console.log(response)
         response.data.forEach(e => {
-          this.urls.push(e.coverArtUrl)
-          this.artists.push(e.artist)
-          this.titles.push(e.title)
+          console.log(e)
+          this.urls.push(e.album.coverArtUrl)
+          this.artists.push(e.album.artist)
+          this.titles.push(e.album.title)
         })
       })
     },
-    goToReview: function(artist, title) {
-      this.$router.push({name: 'review', params: {artist: artist, title: title}})
+    goToReview: function(artist, title, url) {
+      this.$router.push({name: 'review', params: {artist: artist, title: title, coverArtUrl: url}})
     }
   }
 }

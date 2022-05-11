@@ -21,8 +21,8 @@ public class AlbumController {
     }
 
     @PostMapping("")
-    public Album registerAlbum(@RequestBody Album album) {
-        return albumService.save(album);
+    public Album registerAlbum(@RequestParam String artist, @RequestParam String title, @RequestParam String coverArtUrl) {
+        return albumService.save(artist, title, coverArtUrl);
     }
 
     @GetMapping("/{artist}")
@@ -37,7 +37,7 @@ public class AlbumController {
     }
 
     @PutMapping("/{artist}/{title}")
-    public String modifyAlbum(@PathVariable String artist, @PathVariable String title, @RequestBody String coverArtUrl) {
+    public String modifyAlbum(@PathVariable String artist, @PathVariable String title, @RequestParam String coverArtUrl) {
         albumService.updateAlbum(artist, title, coverArtUrl);
         return "Success!";
     }
